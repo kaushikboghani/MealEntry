@@ -114,17 +114,6 @@ sap.ui.define([
         oDialogTimesheet.open();
       });
     }
-      var pDialogTimesheet;
-      if (!pDialogTimesheet) {
-        pDialogTimesheet = this.loadFragment({
-          name: "mealentry.fragments.EditData",
-        });
-      }
-      pDialogTimesheet.then(function (oDialogTimesheet) {
-        oDialogTimesheet.open();
-      });
-  
-
     },
     onCancelTiffinData: function (oEvent) {
       oEvent.getSource().getParent().close();
