@@ -1,0 +1,92 @@
+<core:FragmentDefinition xmlns:layout="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog id="SettingsDialog" title="Settings" showHeader="false" contentHeight="100%" contentWidth="100%">
+        <content>
+            <Page showHeader="false">
+                <content>
+                    <f:FlexibleColumnLayout id="FlexibleColumnLayoutSetting" layout="OneColumn">
+                        <f:beginColumnPages>
+                            <Page title="Settings" titleAlignment="Center">
+                                <content>
+                                    <List itemPress="onPressSettingItems">
+                                        <ObjectListItem title="Theme And Appearance" icon="sap-icon://palette" type="Active">
+                                            <attributes>
+                                                <ObjectAttribute text="Customize theme, switch dark mode, and adjust UI." />
+                                            </attributes>
+                                        </ObjectListItem>
+                                        <ObjectListItem title="Sound and Vibration" icon="sap-icon://sound-loud" type="Active">
+                                            <attributes>
+                                                <ObjectAttribute text="Change the application Sound and Vibration settings." />
+                                            </attributes>
+                                        </ObjectListItem>
+                                    </List>
+
+
+                                </content>
+                            </Page>
+                        </f:beginColumnPages>
+                        <f:midColumnPages>
+                            <Page titleAlignment="Center" id="midColumnPagesSettingId" showNavButton="true" navButtonPress="onPressNavBackSetting" title="{TiffinTitle>/}">
+                                <content>
+                                    <layout:BlockLayout background="Dashboard" class="sapUiMediumMargin">
+                                        <layout:BlockLayoutRow>
+                                            <layout:BlockLayoutCell>
+                                                <layout:content>
+                                                    <!-- /////////////////////////////////////////edit profile//////////////////////////////////////////////////////////// -->
+
+                                                   
+
+
+                                                   
+                                                    <!-- //////////////////////////////Sound and Vibration///////////////////////////////////////////// -->
+                                                    <form:SimpleForm layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false" visible="{= ${TiffinTitle>/} === 'Sound and Vibration'}">
+                                                        <Label design="Bold" text="Enable Sound" />
+                                                        <Switch id="soundSwitch" state="{TiffinData>/Sound}" change="onToggleSoundandVibrate"/>
+
+                                                        <Label design="Bold" text="Enable Vibration" />
+                                                        <Switch id="vibrationSwitch" state="{TiffinData>/Vibrate}" change="onToggleSoundandVibrate"/>
+
+                                                    </form:SimpleForm>
+                                                    <!-- /////////////////////////////////////////////////Theme And Appearance////////////////////////////////////////////////// -->
+                                                    <List id="idThemeList" headerText="Select Theme" mode="SingleSelectLeft" visible="{= ${TiffinTitle>/} === 'Theme And Appearance'}">
+                                                        <StandardListItem id="sap_fiori_3" title="SAP Quartz Light" description="sap_fiori_3 - Default light theme in SAP Fiori 3" icon="sap-icon://color-fill" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_fiori_3'}" />
+                                                        <StandardListItem id="sap_fiori_3_dark" title="SAP Quartz Dark" description="sap_fiori_3_dark - Dark mode variant of Quartz" icon="sap-icon://contrast" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_fiori_3_dark'}"/>
+                                                        <StandardListItem id="sap_fiori_3_hcw" title="SAP Quartz High Contrast White" description="sap_fiori_3_hcw - High contrast white theme" icon="sap-icon://detail-view" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_fiori_3_hcw'}"/>
+                                                        <StandardListItem id="sap_fiori_3_hcb" title="SAP Quartz High Contrast Black" description="sap_fiori_3_hcb - High contrast black theme" icon="sap-icon://journey-change" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_fiori_3_hcb'}"/>
+                                                        <StandardListItem id="sap_belize" title="SAP Belize" description="sap_belize - Used in SAP Fiori 2.0 (light theme)" icon="sap-icon://palette" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_belize'}"/>
+                                                        <StandardListItem id="sap_belize_plus" title="SAP Belize Plus" description="sap_belize_plus - Variant with improved contrast" icon="sap-icon://border" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_belize_plus'}"/>
+                                                        <StandardListItem id="sap_hcb" title="SAP High Contrast Black" description="sap_hcb - High contrast black for accessibility" icon="sap-icon://show" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_hcb'}"/>
+                                                        <StandardListItem id="sap_hcw" title="SAP High Contrast White" description="sap_hcw - High contrast white for accessibility" icon="sap-icon://hide" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_hcw'}"/>
+                                                        <StandardListItem id="sap_bluecrystal" title="SAP Blue Crystal" description="sap_bluecrystal - Legacy theme before Fiori 2.0" icon="sap-icon://background" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_bluecrystal'}"/>
+                                                        <StandardListItem id="sap_goldreflection" title="SAP Gold Reflection" description="sap_goldreflection - Classic SAP UI theme" icon="sap-icon://favorite" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_goldreflection'}"/>
+                                                        <StandardListItem id="sap_platinum" title="SAP Platinum" description="sap_platinum - Another classic SAP UI theme" icon="sap-icon://sys-help" type="Active" wrapping="true" selected="{= ${TiffinData>/Theme} === 'sap_platinum'}"/>
+                                                    </List>
+
+                                                    <HBox wrap="Wrap" justifyContent="End" class="sapUiSmallMarginTop" visible="{= ${TiffinTitle>/} === 'Theme And Appearance'}">
+                                                        <Button text="Apply" type="Emphasized" press="onPressSettingApplyTheme" class="sapUiSmallMarginEnd"/>
+                                                        <Button text="Cancel" type="Reject" press="CancelThemeSettingcancelPress"/>
+                                                    </HBox>
+
+                                                   
+                                                </layout:content>
+                                            </layout:BlockLayoutCell>
+                                        </layout:BlockLayoutRow>
+
+                                    </layout:BlockLayout>
+                                </content>
+                            </Page>
+                        </f:midColumnPages>
+
+                    </f:FlexibleColumnLayout>
+                </content>
+            </Page>
+        </content>
+        <endButton>
+            <Button text="Close" press="onCancelTiffinData" type="Reject"/>
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

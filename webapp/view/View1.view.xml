@@ -1,0 +1,116 @@
+<mvc:View xmlns:core="sap.ui.core"
+    xmlns:filterbar="sap.ui.comp.filterbar" controllerName="mealentry.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}" showHeader="false">
+        <f:DynamicPage>
+            <f:title>
+                <f:DynamicPageTitle>
+                    <f:heading>
+                        <HBox>
+                            <Title text="Tifiin Entry" level="H1" class="header" wrapping="true"></Title>
+                        </HBox>
+                    </f:heading>
+                    <f:snappedHeading>
+                        <FlexBox fitContainer="true" alignItems="Center">
+                            <Avatar src="sap-icon://key-user-settings" class="sapUiTinyMarginEnd"/>
+                        </FlexBox>
+                    </f:snappedHeading>
+                    <f:snappedTitleOnMobile>
+                        <Title text="Manage Tifiin Data" wrapping="true"/>
+                    </f:snappedTitleOnMobile>
+                    <f:expandedHeading>
+                        <FlexBox>
+                            <items>
+                                <Avatar src="sap-icon://key-user-settings" class="sapUiTinyMarginEnd"/>
+                                <Title text="Employees Data" wrapping="true" class="sapUiSmallMarginTop" />
+                            </items>
+                        </FlexBox>
+                    </f:expandedHeading>
+                    <f:expandedContent>
+                        <Label id="expandedLabel" text="Manage Tifiin Data" />
+                    </f:expandedContent>
+                    <f:snappedContent>
+                        <Label id="snappedLabl" text="Manage Tifiin Data" />
+                    </f:snappedContent>
+                    <f:actions>
+                        <Button type="Ghost" press="onPressSetting" text="Setting" icon="sap-icon://action-settings"></Button>
+                    </f:actions>
+                </f:DynamicPageTitle>
+
+
+            </f:title>
+            <f:header>
+                <f:DynamicPageHeader>
+                    <f:content>
+                        <filterbar:FilterBar id="filterbar" showFilterConfiguration="false" showClearOnFB="true" clear="onClearFilter" persistencyKey="myPersKey" useToolbar="false" search=".onSearch" filterChange=".onFilterChange" afterVariantLoad=".onAfterVariantLoad">
+                            <filterbar:filterGroupItems>
+                                <filterbar:FilterGroupItem name="Date" label="Date" groupName="Group1" visibleInFilterBar="true">
+                                    <filterbar:control>
+                                        <DateRangeSelection id="dateFilterRangeTiffin" valueFormat="yyyy-MM-dd" displayFormat="dd-MM-yyyy" secondDateValue="{FilterModel>/SecondDate}" dateValue="{FilterModel>/FirstDate}"></DateRangeSelection>
+                                    </filterbar:control>
+                                </filterbar:FilterGroupItem>
+
+                                <filterbar:FilterGroupItem name="DaTiffinTimete" label="Tiffin Time" groupName="Group1" visibleInFilterBar="true">
+                                    <filterbar:control>
+                                        <Select id="tiffinTimeFilter" selectedKey="{FilterModel>/TiffinTime}" forceSelection="false">
+                                            <items>
+                                                <core:Item text="Sanje" key="Sanje"></core:Item>
+                                                <core:Item text="Bapore" key="Bapore"></core:Item>
+                                            </items>
+                                        </Select>
+                                    </filterbar:control>
+                                </filterbar:FilterGroupItem>
+                            </filterbar:filterGroupItems>
+                        </filterbar:FilterBar>
+
+                    </f:content>
+                </f:DynamicPageHeader>
+
+            </f:header>
+            <f:content>
+                <Table items="{TiffinData>/}" id="TiffinDataTable" mode="SingleSelectLeft" selectionChange="onSelectTableItems">
+                    <headerToolbar >
+                        <OverflowToolbar width="100%">
+                            <content>
+                                <Button icon="sap-icon://download" press="PressDownloadDataDialog" id="PressDownloadDataDialog" text="Download" type="Emphasized"></Button>
+                                <ToolbarSpacer ></ToolbarSpacer>
+                                <Button icon="sap-icon://add" press="onPressAddNewTiffinData" id="onPressAddNewTiffinData" text="Add New Tiffin" type="Ghost"></Button> 
+                                <Button icon="sap-icon://delete" press="onPressdeleteTiffinData" visible="false" id="deletedataBTN" text="Delete" type="Reject"></Button> 
+                               
+
+                            </content>
+                        </OverflowToolbar>
+                    </headerToolbar>
+                    <columns>
+                        <Column>
+                            <Text text="Date"/>
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="Number of Tiffin Axay"/>
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="Kaushik Bhargav"/>
+                        </Column>
+                        <Column hAlign="Center">
+                            <Text text="Tiffin Time"/>
+                        </Column>
+                    </columns>
+                    <items>
+                        <ColumnListItem>
+                            <cells>
+                                <Title text="{path: 'TiffinData>Date', formatter: '.formatter.formatDate'}" wrapping="true"></Title>
+                                <Title text="{TiffinData>NumberofTiffinAxay}" wrapping="true"></Title>
+                                <Title text="{TiffinData>NumberofTiffin_Kaushik_Bhargav}" wrapping="true"></Title>
+                                <ObjectStatus text="{TiffinData>TiffinTime}" state="{= ${TiffinData>TiffinTime} === 'Sanje' ? 'Information' : 'Success'}" inverted="true" />
+
+                            </cells>
+                        </ColumnListItem>
+                    </items>
+
+                </Table>
+            </f:content>
+        </f:DynamicPage>
+    </Page>
+</mvc:View>
