@@ -2,25 +2,41 @@ sap.ui.define([
   "./Setting",
   "sap/m/MessageBox"
 
-], (Setting,MessageBox) => {
+], (Setting, MessageBox) => {
   "use strict";
 
   return Setting.extend("mealentry.controller.View1", {
     onInit() {
+      
+    },
+    onAfterRendering: function () {
+      debugger
+      var pDialogTimesheet;
+      if (!pDialogTimesheet) {
+        pDialogTimesheet = this.loadFragment({
+          name: "mealentry.fragments.selectUser",
+        });
+        pDialogTimesheet.then(function (oDialogTimesheet) {
+          oDialogTimesheet.open();
+        });
+      }
+    },
+    formatter: {
+      formatDate: function (sDate) {
+        if (!sDate) return "";
+        let oDate = new Date(sDate);
+        let dd = String(oDate.getDate()).padStart(2, '0');
+        let mm = String(oDate.getMonth() + 1).padStart(2, '0');
+        let yyyy = oDate.getFullYear();
+        return dd + "-" + mm + "-" + yyyy;
+      }
+    },
+    onGODataGet: function (oEvent) {
+      debugger
+      this.getOwnerComponent().getModel("SelectedUser").setData(this.getView().byId("rbg1").getSelectedButton().getText());
+      oEvent.getSource().getParent().close();
       this._getTiffinDataData();
     },
-   
-    formatter: {
-      formatDate: function(sDate) {
-          if (!sDate) return "";
-          let oDate = new Date(sDate);
-          let dd = String(oDate.getDate()).padStart(2, '0');
-          let mm = String(oDate.getMonth() + 1).padStart(2, '0');
-          let yyyy = oDate.getFullYear();
-          return dd + "-" + mm + "-" + yyyy;
-      }
-  },
-  
     _getTiffinDataData: function () {
       var that = this;
       sap.ui.core.BusyIndicator.show();
@@ -35,9 +51,9 @@ sap.ui.define([
           if (TiffinData?.error) {
             sap.m.MessageToast.show("Error: " + TiffinData.error);
           } else {
-            that.getView().getModel("TiffinData").setData(TiffinData);
+            var filteredData = TiffinData.filter(item => item.User === this.getView().getModel("SelectedUser").getData());
+            that.getView().getModel("TiffinData").setData(filteredData);
             that.getView().getModel("TiffinData").refresh(true);
-
           }
         })
         .catch(error => {
@@ -48,29 +64,57 @@ sap.ui.define([
 
     onSaveTiffinData: function (oEvent) {
       var isValid = true, oView = this.getView();
-
       ["dateInput", "tiffinTimeSelect"].forEach(id => {
-          let oInput = oView.byId(id), val = oInput?.getValue?.()?.trim() || oInput?.getSelectedKey?.()?.trim();
-          oInput?.setValueState(val ? "None" : (isValid = false, "Error")).setValueStateText(val ? "" : "This field is required");
+        let oInput = oView.byId(id), val = oInput?.getValue?.()?.trim() || oInput?.getSelectedKey?.()?.trim();
+        oInput?.setValueState(val ? "None" : (isValid = false, "Error")).setValueStateText(val ? "" : "This field is required");
       });
-      
-      ["numTiffinAxay", "numTiffinKaushik"].forEach(id => {
+      if (this.getView().getModel("SelectedUser").getData() === "AXAY") {
+        ["numTiffinAxay", "numTiffinKaushik"].forEach(id => {
           let oInput = oView.byId(id), val = oInput?.getValue?.();
           oInput?.setValueState(val >= 0 ? "None" : (isValid = false, "Error")).setValueStateText(val >= 0 ? "" : "This field is required");
-      });
-      
+        });
+      }
+      if (this.getView().getModel("SelectedUser").getData() === "VIVEK") {
+        ["numTiffinVivek"].forEach(id => {
+          let oInput = oView.byId(id), val = oInput?.getValue?.();
+          oInput?.setValueState(val >= 0 ? "None" : (isValid = false, "Error")).setValueStateText(val >= 0 ? "" : "This field is required");
+        });
+      }
+
       if (!isValid) return sap.m.MessageToast.show("Please fill all required fields.");
-      
+
       var that = this;
       sap.ui.core.BusyIndicator.show();
       var sUrl = "https://meal-backend-sigma.vercel.app/api/meal";
       var oData = this.getView().getModel("AddTiffinData").getData();
-      var numTiffinAxay = this.getView().getModel("AddTiffinData").getData().NumberofTiffinAxay || 0;
-      var numTiffinKaushikBhargav = this.getView().getModel("AddTiffinData").getData().NumberofTiffin_Kaushik_Bhargav || 0;
-  
-      oData.AxayMealPrice = numTiffinAxay * 80;
-      oData.Kaushik_Bhargav_meal_Price = numTiffinKaushikBhargav * 80;
+      // oData.NumberofTiffinAxay = 
+      // oData.NumberofTiffin_Kaushik_Bhargav =
+      // oData.NumberofTiffinvivek = datedsa
+      oData.NumberofTiffinAxay = this.getView().getModel("AddTiffinData").getData().NumberofTiffinAxay || 0;
+      oData.NumberofTiffin_Kaushik_Bhargav = this.getView().getModel("AddTiffinData").getData().NumberofTiffin_Kaushik_Bhargav || 0;
+      oData.NumberofTiffinvivek = this.getView().getModel("AddTiffinData").getData().NumberofTiffinvivek || 0;
 
+      if (this.getView().getModel("AddTiffinData").getData().TiffinTime === 'Sanje') {
+        if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
+          oData.AxayMealPrice =  oData.NumberofTiffinAxay * 90;
+          oData.Kaushik_Bhargav_meal_Price = oData.NumberofTiffin_Kaushik_Bhargav * 90;
+        }
+        if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
+          oData.vivekMealPrice = oData.NumberofTiffinvivek * 90;
+        }
+      }
+
+      if (this.getView().getModel("AddTiffinData").getData().TiffinTime === 'Bapor') {
+        if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
+          oData.AxayMealPrice = oData.NumberofTiffinAxay * 80;
+          oData.Kaushik_Bhargav_meal_Price = oData.NumberofTiffin_Kaushik_Bhargav * 80;
+         
+        }
+        if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
+          oData.vivekMealPrice = oData.NumberofTiffinvivek * 80;
+        }
+      }
+      oData.User = this.getView().getModel("SelectedUser").getData();
       fetch(sUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -83,8 +127,7 @@ sap.ui.define([
             sap.m.MessageToast.show("Error: " + result.error);
           } else {
             sap.m.MessageToast.show("Tiffin Data Saved Successfully!");
-            that.getView().getModel("TiffinData").setData(result);
-            that.getView().getModel("TiffinData").refresh(true);
+            this._getTiffinDataData();
             oEvent.getSource().getParent().close();
             oEvent.getSource().getParent().destroy();
             this.getView().getModel("AddTiffinData").setData({});
@@ -95,7 +138,7 @@ sap.ui.define([
           sap.m.MessageToast.show("Error occurred: " + error.message);
         });
     },
-    onChangeValue:function(oEvent){
+    onChangeValue: function (oEvent) {
       debugger
       oEvent.getSource().setValueState("None")
     },
@@ -110,10 +153,10 @@ sap.ui.define([
         pDialogTimesheet = this.loadFragment({
           name: "mealentry.fragments.addData",
         });
-      pDialogTimesheet.then(function (oDialogTimesheet) {
-        oDialogTimesheet.open();
-      });
-    }
+        pDialogTimesheet.then(function (oDialogTimesheet) {
+          oDialogTimesheet.open();
+        });
+      }
     },
     onCancelTiffinData: function (oEvent) {
       oEvent.getSource().getParent().close();
@@ -161,7 +204,7 @@ sap.ui.define([
       let aSelectedItems = this.byId("TiffinDataTable").getSelectedItems();
 
       if (aSelectedItems.length === 0) {
-      sap.m.MessageToast.show("Please select items to delete.");
+        sap.m.MessageToast.show("Please select items to delete.");
         return;
       }
 
@@ -197,11 +240,11 @@ sap.ui.define([
         }
       });
     },
-    onSelectTableItems:function(oEvent){
+    onSelectTableItems: function (oEvent) {
       debugger
-      if(oEvent.getSource().getSelectedItems().length !== 0){
+      if (oEvent.getSource().getSelectedItems().length !== 0) {
         this.getView().byId("deletedataBTN").setVisible(true);
-      }else{
+      } else {
         this.getView().byId("deletedataBTN").setVisible(false);
 
       }

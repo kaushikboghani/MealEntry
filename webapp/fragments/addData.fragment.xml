@@ -10,12 +10,14 @@
                     <Label design="Bold" text="Date" />
                     <DatePicker id="dateInput" change="onChangeValue" valueFormat="yyyy-MM-dd" displayFormat="long" value="{AddTiffinData>/Date}"/>
 
-                    <Label design="Bold" text="Number of Tiffin (Axay)" />
-                    <!-- <Input id="numTiffinAxay" type="Number" value="{AddTiffinData>/NumberofTiffinAxay}"/> -->
-                    <StepInput id="numTiffinAxay" min="0" change="onChangeValue" value="{AddTiffinData>/NumberofTiffinAxay}"></StepInput>
+                    <Label design="Bold" text="Number of Tiffin (Axay)"  visible="{= ${SelectedUser>/} === 'AXAY' }"/>
+                    <StepInput id="numTiffinAxay" min="0" change="onChangeValue" value="{AddTiffinData>/NumberofTiffinAxay}"  visible="{= ${SelectedUser>/} === 'AXAY' }"></StepInput>
 
-                    <Label design="Bold" text="Number of Tiffin (Kaushik Bhargav)" />
-                    <StepInput id="numTiffinKaushik" min="0" change="onChangeValue" value="{AddTiffinData>/NumberofTiffin_Kaushik_Bhargav}"/>
+                    <Label design="Bold" text="Number of Tiffin (Kaushik Bhargav)"  visible="{= ${SelectedUser>/} === 'AXAY' }"/>
+                    <StepInput id="numTiffinKaushik" min="0" change="onChangeValue" value="{AddTiffinData>/NumberofTiffin_Kaushik_Bhargav}"  visible="{= ${SelectedUser>/} === 'AXAY' }"/>
+
+                    <Label design="Bold" text="Number of Tiffin (Vivek)"  visible="{= ${SelectedUser>/} === 'VIVEK' }"/>
+                    <StepInput id="numTiffinVivek" min="0" change="onChangeValue" value="{AddTiffinData>/NumberofTiffinvivek}"  visible="{= ${SelectedUser>/} === 'VIVEK' }"/>
 
                     <Label design="Bold" text="Tiffin Time"  />
                     <Select id="tiffinTimeSelect" change="onChangeValue" selectedKey="{AddTiffinData>/TiffinTime}" forceSelection="false">

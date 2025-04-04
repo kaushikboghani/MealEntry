@@ -66,6 +66,9 @@
             },
             "PDFDownloadData": {
                 "type": "sap.ui.model.json.JSONModel"
+            },
+            "SelectedUser": {
+                "type": "sap.ui.model.json.JSONModel"
             }
         },
         "resources": {

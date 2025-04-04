@@ -3,13 +3,13 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.f"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}" showHeader="false">
+    <Page id="page" title="{i18n>title}" showHeader="false"   visible="{= Object.keys(${SelectedUser>/}).length > 0 }">
         <f:DynamicPage>
             <f:title>
                 <f:DynamicPageTitle>
                     <f:heading>
                         <HBox>
-                            <Title text="Tifiin Entry" level="H1" class="header" wrapping="true"></Title>
+                            <Title text="{SelectedUser>/}" level="H1" class="header" wrapping="true"  ></Title>
                         </HBox>
                     </f:heading>
                     <f:snappedHeading>
@@ -18,7 +18,7 @@
                         </FlexBox>
                     </f:snappedHeading>
                     <f:snappedTitleOnMobile>
-                        <Title text="Manage Tifiin Data" wrapping="true"/>
+                        <Title text="Tiffin Entry" wrapping="true"/>
                     </f:snappedTitleOnMobile>
                     <f:expandedHeading>
                         <FlexBox>
@@ -77,9 +77,7 @@
                                 <Button icon="sap-icon://download" press="PressDownloadDataDialog" id="PressDownloadDataDialog" text="Download" type="Emphasized"></Button>
                                 <ToolbarSpacer ></ToolbarSpacer>
                                 <Button icon="sap-icon://add" press="onPressAddNewTiffinData" id="onPressAddNewTiffinData" text="Add New Tiffin" type="Ghost"></Button> 
-                                <Button icon="sap-icon://delete" press="onPressdeleteTiffinData" visible="false" id="deletedataBTN" text="Delete" type="Reject"></Button> 
-                               
-
+                                <Button icon="sap-icon://delete" press="onPressdeleteTiffinData" visible="false" id="deletedataBTN" text="Delete" type="Reject"></Button>   
                             </content>
                         </OverflowToolbar>
                     </headerToolbar>
@@ -87,12 +85,17 @@
                         <Column>
                             <Text text="Date"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center"  visible="{= ${SelectedUser>/} === 'AXAY' }">
                             <Text text="Number of Tiffin Axay"/>
                         </Column>
-                        <Column hAlign="Center">
+                        <Column hAlign="Center"  visible="{= ${SelectedUser>/} === 'AXAY' }">
                             <Text text="Kaushik Bhargav"/>
                         </Column>
+                        
+                        <Column hAlign="Center"  visible="{= ${SelectedUser>/} === 'VIVEK' }">
+                            <Text text="Vivek Tiffin"/>
+                        </Column>
+                        
                         <Column hAlign="Center">
                             <Text text="Tiffin Time"/>
                         </Column>
@@ -101,10 +104,10 @@
                         <ColumnListItem>
                             <cells>
                                 <Title text="{path: 'TiffinData>Date', formatter: '.formatter.formatDate'}" wrapping="true"></Title>
-                                <Title text="{TiffinData>NumberofTiffinAxay}" wrapping="true"></Title>
-                                <Title text="{TiffinData>NumberofTiffin_Kaushik_Bhargav}" wrapping="true"></Title>
+                                <Title text="{TiffinData>NumberofTiffinAxay}" wrapping="true"  visible="{= ${SelectedUser>/} === 'AXAY' }"></Title>
+                                <Title text="{TiffinData>NumberofTiffin_Kaushik_Bhargav}" wrapping="true"  visible="{= ${SelectedUser>/} === 'AXAY' }"></Title>
+                                <Title text="{TiffinData>NumberofTiffinvivek}" wrapping="true"  visible="{= ${SelectedUser>/} === 'VIVEK' }"></Title>
                                 <ObjectStatus text="{TiffinData>TiffinTime}" state="{= ${TiffinData>TiffinTime} === 'Sanje' ? 'Information' : 'Success'}" inverted="true" />
-
                             </cells>
                         </ColumnListItem>
                     </items>

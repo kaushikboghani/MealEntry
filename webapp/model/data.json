@@ -1,48 +1,25 @@
-[
+{
+  "Sound": true,
+  "Vibrate": false,
+  "Theme": "sap_fiori_3",
+  "Tiffins": [
     {
-      "Date": "2025-04-01T00:00:00.000Z",
-      "NumberofTiffinAxay": 2,
-      "NumberofTiffin_Kaushik_Bhargav": 1,
-      "TiffinTime": "Bapore",
-      "AxayMealPrice": 160,
-      "Kaushik_Bhargav_meal_Price": 80,
-      "mainSettings": "65e8f7b5c4a2d3f8a1b2c3d4"
-    },
-    {
-      "Date": "2025-04-02T00:00:00.000Z",
-      "NumberofTiffinAxay": 1,
-      "NumberofTiffin_Kaushik_Bhargav": 2,
-      "TiffinTime": "Sanje",
-      "AxayMealPrice": 80,
-      "Kaushik_Bhargav_meal_Price": 160,
-      "mainSettings": "65e8f7b5c4a2d3f8a1b2c3d4"
-    },
-    {
-      "Date": "2025-04-03T00:00:00.000Z",
+      "Date": "2025-03-31T00:00:00Z",
       "NumberofTiffinAxay": 3,
-      "NumberofTiffin_Kaushik_Bhargav": 1,
-      "TiffinTime": "Bapore",
-      "AxayMealPrice": 240,
-      "Kaushik_Bhargav_meal_Price": 80,
-      "mainSettings": "65e8f7b5c4a2d3f8a1b2c3d4"
-    },
-    {
-      "Date": "2025-04-04T00:00:00.000Z",
-      "NumberofTiffinAxay": 2,
       "NumberofTiffin_Kaushik_Bhargav": 2,
-      "TiffinTime": "Sanje",
-      "AxayMealPrice": 160,
+      "TiffinTime": "Morning",
+      "AxayMealPrice": 240,
       "Kaushik_Bhargav_meal_Price": 160,
-      "mainSettings": "65e8f7b5c4a2d3f8a1b2c3d4"
+      "mainSettings": "65fc9bfe123456789abcdef0"
     },
     {
-      "Date": "2025-04-05T00:00:00.000Z",
-      "NumberofTiffinAxay": 1,
-      "NumberofTiffin_Kaushik_Bhargav": 3,
-      "TiffinTime": "Bapore",
-      "AxayMealPrice": 80,
-      "Kaushik_Bhargav_meal_Price": 240,
-      "mainSettings": "65e8f7b5c4a2d3f8a1b2c3d4"
+      "Date": "2025-03-30T00:00:00Z",
+      "NumberofTiffinAxay": 4,
+      "NumberofTiffin_Kaushik_Bhargav": 1,
+      "TiffinTime": "Evening",
+      "AxayMealPrice": 320,
+      "Kaushik_Bhargav_meal_Price": 80,
+      "mainSettings": "65fc9bfe123456789abcdef0"
     }
   ]
-  
+}
