@@ -16,7 +16,7 @@
         </content>
 
         <beginButton>
-            <Button text="onDonloadPDF" type="Emphasized" press="onDownloadPDFData"/>
+            <Button text="DonloadPDF" type="Emphasized" press="onDownloadPDFData"/>
         </beginButton>
 
         <endButton>
