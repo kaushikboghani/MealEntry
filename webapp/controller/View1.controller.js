@@ -96,11 +96,11 @@ sap.ui.define([
 
       if (this.getView().getModel("AddTiffinData").getData().TiffinTime === 'Sanje') {
         if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
-          oData.AxayMealPrice = oData.NumberofTiffinAxay * 90;
+          oData.AxayMealPrice = oData.NumberofTiffinAxay * 80;
           oData.Kaushik_Bhargav_meal_Price = oData.NumberofTiffin_Kaushik_Bhargav * 90;
         }
         if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
-          oData.vivekMealPrice = oData.NumberofTiffinvivek * 90;
+          oData.vivekMealPrice = oData.NumberofTiffinvivek * 80;
         }
       }
 
@@ -111,7 +111,7 @@ sap.ui.define([
 
         }
         if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
-          oData.vivekMealPrice = oData.NumberofTiffinvivek * 80;
+          oData.vivekMealPrice = oData.NumberofTiffinvivek * 90;
         }
       }
       oData.User = this.getView().getModel("SelectedUser").getData();
