@@ -13,9 +13,9 @@
                         </HBox>
                     </f:heading>
                     <f:snappedHeading>
-                        <FlexBox fitContainer="true" alignItems="Center">
+                        <!-- <FlexBox fitContainer="true" alignItems="Center">
                             <Avatar src="sap-icon://key-user-settings" class="sapUiTinyMarginEnd"/>
-                        </FlexBox>
+                        </FlexBox> -->
                     </f:snappedHeading>
                     <f:snappedTitleOnMobile>
                         <Title text="Tiffin Entry" wrapping="true"/>
