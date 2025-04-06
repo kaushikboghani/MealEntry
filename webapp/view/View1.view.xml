@@ -57,7 +57,7 @@
                                         <Select id="tiffinTimeFilter" selectedKey="{FilterModel>/TiffinTime}" forceSelection="false">
                                             <items>
                                                 <core:Item text="Sanje" key="Sanje"></core:Item>
-                                                <core:Item text="Bapore" key="Bapore"></core:Item>
+                                                <core:Item text="Bapor" key="Bapor"></core:Item>
                                             </items>
                                         </Select>
                                     </filterbar:control>

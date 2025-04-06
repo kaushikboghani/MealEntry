@@ -7,7 +7,7 @@ sap.ui.define([
 
   return Setting.extend("mealentry.controller.View1", {
     onInit() {
-      
+
     },
     onAfterRendering: function () {
       debugger
@@ -96,7 +96,7 @@ sap.ui.define([
 
       if (this.getView().getModel("AddTiffinData").getData().TiffinTime === 'Sanje') {
         if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
-          oData.AxayMealPrice =  oData.NumberofTiffinAxay * 90;
+          oData.AxayMealPrice = oData.NumberofTiffinAxay * 90;
           oData.Kaushik_Bhargav_meal_Price = oData.NumberofTiffin_Kaushik_Bhargav * 90;
         }
         if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
@@ -108,7 +108,7 @@ sap.ui.define([
         if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
           oData.AxayMealPrice = oData.NumberofTiffinAxay * 80;
           oData.Kaushik_Bhargav_meal_Price = oData.NumberofTiffin_Kaushik_Bhargav * 80;
-         
+
         }
         if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
           oData.vivekMealPrice = oData.NumberofTiffinvivek * 80;
@@ -266,16 +266,62 @@ sap.ui.define([
         var oItemDate = new Date(oItem.Date);
         return oItemDate >= new Date(sStartDate) && oItemDate <= new Date(sEndDate);
       });
-
-
-      var totalTiffinAxay = aFilteredData.reduce((sum, oItem) => sum + (oItem.NumberofTiffinAxay || 0), 0);
-      var totalTiffinKaushikBhargav = aFilteredData.reduce((sum, oItem) => sum + (oItem.NumberofTiffin_Kaushik_Bhargav || 0), 0);
-      var totalPriceAxay = aFilteredData.reduce((sum, oItem) => sum + (oItem.AxayMealPrice || 0), 0);
-      var totalPriceKaushikBhargav = aFilteredData.reduce((sum, oItem) => sum + (oItem.Kaushik_Bhargav_meal_Price || 0), 0);
       if (aFilteredData.length === 0) {
         sap.m.MessageToast.show("No data found for the selected date range.");
         return;
       }
+      var aBaporData = aFilteredData.filter(o => o.TiffinTime === "Bapor");
+      var aSanjeData = aFilteredData.filter(o => o.TiffinTime === "Sanje");
+      if (this.getView().getModel("SelectedUser").getData() === 'AXAY') {
+        var totalTiffinAxay = aFilteredData.reduce((sum, oItem) => sum + (oItem.NumberofTiffinAxay || 0), 0);
+        var totalTiffinKaushikBhargav = aFilteredData.reduce((sum, oItem) => sum + (oItem.NumberofTiffin_Kaushik_Bhargav || 0), 0);
+        var totalPriceAxay = aFilteredData.reduce((sum, oItem) => sum + (oItem.AxayMealPrice || 0), 0);
+        var totalPriceKaushikBhargav = aFilteredData.reduce((sum, oItem) => sum + (oItem.Kaushik_Bhargav_meal_Price || 0), 0);
+        var baporTiffinAxay = aBaporData.reduce((sum, o) => sum + (o.NumberofTiffinAxay || 0), 0);
+        var sanjeTiffinAxay = aSanjeData.reduce((sum, o) => sum + (o.NumberofTiffinAxay || 0), 0);
+        var baporTiffinKaushik = aBaporData.reduce((sum, o) => sum + (o.NumberofTiffin_Kaushik_Bhargav || 0), 0);
+        var sanjeTiffinKaushik = aSanjeData.reduce((sum, o) => sum + (o.NumberofTiffin_Kaushik_Bhargav || 0), 0);
+        var aHeaders = [["Date", "Tiffins (Axay)", "Tiffins (Kaushik Bhargav)", "Tiffin Time"]];
+        var  boxHeight = 80;
+        var aRows = aFilteredData.map(function (oItem) {
+          return [oItem.Date, oItem.NumberofTiffinAxay, oItem.NumberofTiffin_Kaushik_Bhargav, oItem.TiffinTime];
+        });
+        var summaryData = [
+          `Axay Total Tiffins : ${totalTiffinAxay}`,
+          `bapor Tiffins (Axay) : ${baporTiffinAxay}`,
+          `sanje Tiffins (Axay) : ${sanjeTiffinAxay}`,
+          `Axay Total Tiffin Price (Axay): ${totalPriceAxay.toLocaleString("en-IN", { useGrouping: true })}`,
+          `Kaushik/Bhargav Total Tiffins : ${totalTiffinKaushikBhargav}`,
+          `bapor Tiffins (Kaushik/Bhargav) : ${baporTiffinKaushik}`,
+          `sanje Tiffins (Kaushik/Bhargav) : ${sanjeTiffinKaushik}`,
+          `Kaushik Bhargav Total Tiffin Price: ${totalPriceKaushikBhargav.toLocaleString("en-IN", { useGrouping: true })}`,
+          `Kaushik Tiffins Price: ${(totalPriceKaushikBhargav / 2).toLocaleString("en-IN", { useGrouping: true })}`,
+          `Bhargav Tiffins Price: ${(totalPriceKaushikBhargav / 2).toLocaleString("en-IN", { useGrouping: true })}`
+        ];
+      }
+
+      if (this.getView().getModel("SelectedUser").getData() === 'VIVEK') {
+        var totalTiffinVivek = aFilteredData.reduce((sum, oItem) => sum + (oItem.NumberofTiffinvivek || 0), 0);
+        var vivekMealPrice = aFilteredData.reduce((sum, oItem) => sum + (oItem.vivekMealPrice || 0), 0);
+        var baporTiffinVivek = aBaporData.reduce((sum, o) => sum + (o.NumberofTiffinvivek || 0), 0);
+        var sanjeTiffinVivek = aSanjeData.reduce((sum, o) => sum + (o.NumberofTiffinvivek || 0), 0);
+        var baporVivekPrice = aBaporData.reduce((sum, oItem) => sum + (oItem.vivekMealPrice || 0), 0);
+        var sanjeVivekPrice = aSanjeData.reduce((sum, oItem) => sum + (oItem.vivekMealPrice || 0), 0);
+        var aHeaders = [["Date", "Tiffins (vivek)", "Tiffin Time"]];
+        var boxHeight = 50;
+        var aRows = aFilteredData.map(function (oItem) {
+          return [oItem.Date, oItem.NumberofTiffinvivek, oItem.TiffinTime];
+        });
+        var summaryData = [
+          `Vivek Total Tiffins : ${totalTiffinVivek}`,
+          `Vivek bapor tiffin : ${baporTiffinVivek}`,
+          `vivek sanje tiffin: ${sanjeTiffinVivek.toLocaleString("en-IN", { useGrouping: true })}`,
+          `vivek Total Tiffin Price: ${vivekMealPrice.toLocaleString("en-IN", { useGrouping: true })}`,
+          `Bapor Tiffin Price (Vivek): ${baporVivekPrice.toLocaleString("en-IN")}`,
+          `Sanje Tiffin Price (Vivek): ${sanjeVivekPrice.toLocaleString("en-IN")}`
+        ];
+      }
+
 
       var doc = new window.jspdf.jsPDF({
         orientation: "portrait",
@@ -285,18 +331,11 @@ sap.ui.define([
 
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
-      let titleText = "Tiffin Data Report";
+      let titleText = "Tiffin Entry";
       let pageWidth = doc.internal.pageSize.getWidth();
       let titleX = pageWidth / 2 - (doc.getTextWidth(titleText) / 2);
       doc.text(titleText, titleX, 15);
 
-
-
-      var aHeaders = [["Date", "Tiffins (Axay)", "Tiffins (Kaushik Bhargav)", "Tiffin Time"]];
-
-      var aRows = aFilteredData.map(function (oItem) {
-        return [oItem.Date, oItem.NumberofTiffinAxay, oItem.NumberofTiffin_Kaushik_Bhargav, oItem.TiffinTime];
-      });
 
       doc.autoTable({
         head: aHeaders,
@@ -331,7 +370,7 @@ sap.ui.define([
       let boxX = 14;
       let boxY = finalY;
       let boxWidth = 180;
-      let boxHeight = 50;
+      
 
       doc.setDrawColor(0);
       doc.setFillColor(220, 220, 220);
@@ -345,14 +384,6 @@ sap.ui.define([
       doc.text(summaryTitle, summaryTitleX, boxY + 8);
 
       doc.setFontSize(12);
-      let summaryData = [
-        `Axay Total Tiffins : ${totalTiffinAxay}`,
-        `Kaushik Bhargav Total Tiffins : ${totalTiffinKaushikBhargav}`,
-        `Axay Total Tiffin Price (Axay): ${totalPriceAxay.toLocaleString("en-IN", { useGrouping: true })}`,
-        `Kaushik Bhargav Total Tiffin Price: ${totalPriceKaushikBhargav.toLocaleString("en-IN", { useGrouping: true })}`,
-        `Kaushik Tiffins Price: ${(totalPriceKaushikBhargav / 2).toLocaleString("en-IN", { useGrouping: true })}`,
-        `Bhargav Tiffins Price: ${(totalPriceKaushikBhargav / 2).toLocaleString("en-IN", { useGrouping: true })}`
-      ];
 
       for (var j = 0; j < summaryData.length; j++) {
         doc.text(summaryData[j], boxX + 10, boxY + 15 + (j * 6));
